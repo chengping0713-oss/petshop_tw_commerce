@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>毛選 PawPick｜台灣寵物精選好物</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#2B6CB0;--primary-light:#4299E1;--primary-dark:#1A365D;--accent:#F6AD55;--accent-dark:#DD6B20;--bg:#F7FAFC;--white:#FFFFFF;--gray-100:#EDF2F7;--gray-200:#E2E8F0;--gray-500:#718096;--gray-700:#2D3748;--gray-900:#1A202C;--success:#48BB78;--danger:#E53E3E;--radius:16px;--shadow:0 4px 20px rgba(0,0,0,0.08);--shadow-lg:0 8px 40px rgba(0,0,0,0.12);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--gray-900);line-height:1.6;}
+.topbar{background:var(--primary-dark);color:white;text-align:center;padding:9px;font-size:13px;letter-spacing:0.3px;}
+.topbar span{color:var(--accent);font-weight:700;}
+nav{background:white;box-shadow:0 2px 12px rgba(0,0,0,0.06);position:sticky;top:0;z-index:100;}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;height:70px;gap:32px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;}
+.logo-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;}
+.logo-text .main{font-size:18px;font-weight:900;color:var(--primary-dark);font-family:'Outfit',sans-serif;}
+.logo-text .sub{font-size:11px;color:var(--gray-500);font-weight:300;}
+.nav-links{display:flex;gap:4px;list-style:none;flex:1;}
+.nav-links a{text-decoration:none;color:var(--gray-700);font-size:14px;font-weight:500;padding:8px 14px;border-radius:8px;transition:all 0.2s;cursor:pointer;}
+.nav-links a:hover,.nav-links a.active{background:var(--gray-100);color:var(--primary);}
+.nav-actions{display:flex;align-items:center;gap:10px;margin-left:auto;}
+.nav-btn{background:none;border:none;cursor:pointer;font-size:20px;color:var(--gray-700);padding:8px;border-radius:8px;transition:background 0.2s;position:relative;}
+.nav-btn:hover{background:var(--gray-100);}
+.cart-badge{position:absolute;top:2px;right:2px;background:var(--accent-dark);color:white;font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.btn-nav{padding:8px 18px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all 0.2s;}
+.btn-outline{border:1.5px solid var(--primary);color:var(--primary);background:transparent;}
+.btn-outline:hover{background:var(--primary);color:white;}
+.btn-solid{background:var(--primary);color:white;border:none;}
+.btn-solid:hover{background:var(--primary-dark);}
+/* Hero */
+.hero{background:linear-gradient(135deg,#EBF8FF 0%,#E6FFFA 50%,#FFFAF0 100%);padding:64px 24px;position:relative;overflow:hidden;}
+.hero::after{content:'';position:absolute;right:-100px;top:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(66,153,225,0.08) 0%,transparent 70%);border-radius:50%;}
+.hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--primary);color:white;font-size:12px;font-weight:700;padding:6px 14px;border-radius:20px;margin-bottom:20px;letter-spacing:0.5px;}
+.hero h1{font-size:clamp(32px,4vw,52px);font-weight:900;line-height:1.2;margin-bottom:20px;}
+.hero h1 span{color:var(--primary);}
+.hero p{font-size:16px;color:var(--gray-500);margin-bottom:36px;line-height:1.8;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;}
+.btn-hero{padding:14px 32px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all 0.2s;}
+.btn-hero-p{background:var(--primary);color:white;border:none;box-shadow:0 4px 15px rgba(43,108,176,0.3);}
+.btn-hero-p:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(43,108,176,0.4);}
+.btn-hero-o{background:white;color:var(--primary);border:2px solid var(--primary);}
+.btn-hero-o:hover{background:var(--primary);color:white;}
+.hero-stats{display:flex;gap:32px;margin-top:40px;padding-top:32px;border-top:1px solid var(--gray-200);}
+.hero-stat .num{font-size:28px;font-weight:900;color:var(--primary);font-family:'Outfit',sans-serif;}
+.hero-stat .lbl{font-size:13px;color:var(--gray-500);}
+/* Section */
+.section{padding:56px 24px;max-width:1200px;margin:0 auto;}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px;}
+.sec-title{font-size:26px;font-weight:900;}
+.sec-title span{color:var(--primary);}
+.sec-sub{font-size:14px;color:var(--gray-500);margin-top:4px;}
+/* Categories */
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.cat-card{background:white;border-radius:14px;padding:22px 18px;text-align:center;cursor:pointer;transition:all 0.25s;border:2px solid transparent;box-shadow:var(--shadow);}
+.cat-card:hover,.cat-card.active{border-color:var(--primary-light);transform:translateY(-4px);box-shadow:var(--shadow-lg);}
+.cat-card.active{background:var(--primary);color:white;}
+.cat-icon{font-size:36px;margin-bottom:10px;}
+.cat-name{font-size:14px;font-weight:700;}
+.cat-count{font-size:11px;opacity:0.7;margin-top:3px;}
+/* Products */
+.prods-wrap{background:white;padding:56px 24px;}
+.prod-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+.prod-card{background:white;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);transition:all 0.25s;cursor:pointer;border:1px solid var(--gray-200);}
+.prod-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);}
+.prod-img-wrap{width:100%;height:190px;background:var(--gray-100);display:flex;align-items:center;justify-content:center;font-size:56px;position:relative;overflow:hidden;}
+.prod-img-wrap img{width:100%;height:100%;object-fit:cover;}
+.prod-badges{position:absolute;top:8px;left:8px;display:flex;flex-direction:column;gap:3px;}
+.badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;}
+.badge-hot{background:#E53E3E;color:white;}
+.badge-new{background:var(--success);color:white;}
+.badge-out{background:var(--gray-500);color:white;}
+.btn-wish{position:absolute;top:8px;right:8px;background:white;border:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow);font-size:14px;transition:all 0.2s;}
+.btn-wish.liked{background:#FEE2E2;}
+.prod-body{padding:14px;}
+.prod-brand{font-size:10px;color:var(--primary);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;}
+.prod-name{font-size:14px;font-weight:700;margin-bottom:6px;line-height:1.4;}
+.prod-desc{font-size:11px;color:var(--gray-500);margin-bottom:10px;line-height:1.5;}
+.prod-stars{font-size:11px;color:var(--gray-500);margin-bottom:8px;}
+.prod-stars span{color:#F6C90E;}
+.prod-foot{display:flex;align-items:center;justify-content:space-between;}
+.prod-price{font-size:18px;font-weight:900;color:var(--primary);font-family:'Outfit',sans-serif;}
+.prod-orig{font-size:11px;color:var(--gray-500);text-decoration:line-through;display:block;}
+.btn-add{background:var(--primary);color:white;border:none;width:34px;height:34px;border-radius:9px;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.btn-add:hover{background:var(--primary-dark);transform:scale(1.05);}
+.btn-add:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+/* Skeleton */
+.skel{background:linear-gradient(90deg,var(--gray-200) 25%,var(--gray-100) 50%,var(--gray-200) 75%);background-size:200% 100%;animation:skel 1.5s infinite;border-radius:8px;}
+@keyframes skel{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-card{background:white;border-radius:14px;overflow:hidden;border:1px solid var(--gray-200);}
+/* Features */
+.feats{background:var(--primary-dark);padding:56px 24px;color:white;}
+.feats-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:28px;}
+.feat{text-align:center;}
+.feat-icon{font-size:34px;margin-bottom:12px;display:block;}
+.feat-title{font-size:15px;font-weight:700;margin-bottom:6px;}
+.feat-desc{font-size:12px;opacity:0.7;line-height:1.6;}
+/* Cart Drawer */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.overlay.show{opacity:1;pointer-events:all;}
+.cart-drawer{position:fixed;right:-440px;top:0;height:100vh;width:420px;max-width:100vw;background:white;z-index:300;box-shadow:-4px 0 40px rgba(0,0,0,0.15);transition:right 0.3s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column;}
+.cart-drawer.open{right:0;}
+.cart-head{padding:18px 22px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between;}
+.cart-head h3{font-size:17px;font-weight:700;}
+.btn-x{background:var(--gray-100);border:none;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;}
+.cart-body{flex:1;overflow-y:auto;padding:14px 22px;}
+.cart-empty{text-align:center;padding:56px 0;color:var(--gray-500);}
+.cart-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--gray-100);}
+.ci-img{width:66px;height:66px;background:var(--gray-100);border-radius:10px;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:30px;}
+.ci-img img{width:100%;height:100%;object-fit:cover;}
+.ci-info{flex:1;}
+.ci-name{font-size:13px;font-weight:600;margin-bottom:3px;}
+.ci-price{font-size:15px;font-weight:700;color:var(--primary);font-family:'Outfit',sans-serif;}
+.qty-row{display:flex;align-items:center;gap:6px;margin-top:6px;}
+.qty-btn{width:24px;height:24px;border:1px solid var(--gray-200);background:white;border-radius:5px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.qty-btn:hover{background:var(--primary);color:white;border-color:var(--primary);}
+.qty-n{font-size:13px;font-weight:600;min-width:18px;text-align:center;}
+.btn-del{background:none;border:none;color:var(--gray-500);cursor:pointer;font-size:17px;align-self:flex-start;padding:3px;transition:color 0.2s;}
+.btn-del:hover{color:var(--danger);}
+.cart-foot{padding:18px 22px;border-top:1px solid var(--gray-200);}
+.coupon-row{display:flex;gap:6px;margin-bottom:14px;}
+.coupon-in{flex:1;padding:9px 13px;border:1.5px solid var(--gray-200);border-radius:9px;font-size:13px;font-family:'Noto Sans TC',sans-serif;outline:none;}
+.coupon-in:focus{border-color:var(--primary);}
+.btn-apply{background:var(--gray-100);border:none;padding:9px 14px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Noto Sans TC',sans-serif;white-space:nowrap;}
+.cart-total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.cart-total-row .lbl{font-size:15px;font-weight:600;}
+.cart-total-row .amt{font-size:22px;font-weight:900;color:var(--primary);font-family:'Outfit',sans-serif;}
+.btn-checkout{width:100%;background:var(--primary);color:white;border:none;padding:15px;border-radius:11px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Noto Sans TC',sans-serif;margin-bottom:8px;transition:all 0.2s;}
+.btn-checkout:hover{background:var(--primary-dark);}
+.btn-cont{width:100%;background:var(--gray-100);color:var(--gray-700);border:none;padding:11px;border-radius:11px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Noto Sans TC',sans-serif;}
+/* Modal */
+.modal{position:fixed;inset:0;z-index:400;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal.show{display:flex;}
+.modal-bg{position:absolute;inset:0;background:rgba(0,0,0,0.5);}
+.modal-box{background:white;border-radius:20px;width:100%;max-width:440px;padding:30px;position:relative;z-index:1;max-height:90vh;overflow-y:auto;}
+.modal-box h2{font-size:22px;font-weight:900;margin-bottom:5px;}
+.modal-sub{font-size:13px;color:var(--gray-500);margin-bottom:24px;}
+.fg{margin-bottom:14px;}
+.fg label{display:block;font-size:12px;font-weight:600;color:var(--gray-700);margin-bottom:5px;}
+.fg input,.fg select,.fg textarea{width:100%;padding:11px 14px;border:1.5px solid var(--gray-200);border-radius:9px;font-size:13px;font-family:'Noto Sans TC',sans-serif;outline:none;transition:border-color 0.2s;background:white;color:var(--gray-900);}
+.fg input:focus,.fg select:focus{border-color:var(--primary);}
+.fg-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.ferr{font-size:11px;color:var(--danger);margin-top:3px;display:none;}
+.btn-sub{width:100%;background:var(--primary);color:white;border:none;padding:13px;border-radius:11px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Noto Sans TC',sans-serif;margin-top:6px;transition:all 0.2s;}
+.btn-sub:hover{background:var(--primary-dark);}
+.btn-sub:disabled{opacity:0.6;cursor:not-allowed;}
+.modal-sw{text-align:center;margin-top:18px;font-size:12px;color:var(--gray-500);}
+.modal-sw a{color:var(--primary);font-weight:600;cursor:pointer;}
+.modal-x{position:absolute;top:14px;right:14px;background:var(--gray-100);border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;}
+/* Payment options */
+.pay-opts{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.pay-opt{display:flex;align-items:center;gap:7px;cursor:pointer;font-size:13px;padding:10px 14px;border:2px solid var(--gray-200);border-radius:10px;transition:all 0.2s;user-select:none;}
+.pay-opt.active{border-color:var(--primary);background:rgba(43,108,176,0.04);}
+/* Order summary */
+.order-sum{background:var(--gray-100);padding:14px;border-radius:10px;margin-bottom:14px;}
+.order-sum-row{display:flex;justify-content:space-between;font-size:13px;color:var(--gray-500);margin-bottom:5px;}
+.order-sum-row.total{font-size:15px;font-weight:900;color:var(--primary);margin-bottom:0;}
+/* User dropdown */
+.user-wrap{position:relative;}
+.user-dd{position:absolute;right:0;top:calc(100% + 6px);background:white;border-radius:12px;box-shadow:var(--shadow-lg);min-width:160px;padding:6px;z-index:200;border:1px solid var(--gray-200);display:none;}
+.user-wrap:hover .user-dd{display:block;}
+.user-dd a{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:7px;text-decoration:none;color:var(--gray-700);font-size:13px;cursor:pointer;transition:background 0.2s;}
+.user-dd a:hover{background:var(--gray-100);}
+/* Toast */
+.toasts{position:fixed;bottom:22px;right:22px;z-index:500;display:flex;flex-direction:column;gap:8px;}
+.toast{background:var(--gray-900);color:white;padding:12px 18px;border-radius:11px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow-lg);transform:translateX(110px);opacity:0;transition:all 0.3s;max-width:280px;}
+.toast.show{transform:translateX(0);opacity:1;}
+.toast.success{border-left:4px solid var(--success);}
+.toast.error{border-left:4px solid var(--danger);}
+.toast.warning{border-left:4px solid var(--accent-dark);}
+/* Footer */
+footer{background:var(--gray-900);color:white;padding:56px 24px 28px;}
+.foot-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:36px;}
+.foot-brand .name{font-size:20px;font-weight:900;margin-bottom:10px;font-family:'Outfit',sans-serif;}
+.foot-brand p{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.8;}
+.foot-col h4{font-size:13px;font-weight:700;margin-bottom:14px;color:rgba(255,255,255,0.8);}
+.foot-col ul{list-style:none;}
+.foot-col ul li{margin-bottom:8px;}
+.foot-col ul li a{color:rgba(255,255,255,0.5);text-decoration:none;font-size:12px;transition:color 0.2s;cursor:pointer;}
+.foot-col ul li a:hover{color:white;}
+.foot-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:22px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:rgba(255,255,255,0.4);}
+/* Responsive */
+@media(max-width:1024px){.cat-grid{grid-template-columns:repeat(2,1fr)}.prod-grid{grid-template-columns:repeat(2,1fr)}.feats-inner{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){.nav-links{display:none}.hero-inner{grid-template-columns:1fr}.foot-inner{grid-template-columns:1fr}.foot-bottom{flex-direction:column;gap:8px}.cart-drawer{width:100vw}.fg-grid{grid-template-columns:1fr}}
+@media(max-width:480px){.prod-grid{grid-template-columns:1fr 1fr}.hero{padding:40px 20px}}
+</style>
+</head>
+<body>
+
+<div class="topbar" id="topbarText">🐾 全館滿 NT$ 1,200 免運｜<span>新會員註冊享 85 折</span>｜配送 / 超商取貨皆可</div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon">🐾</div>
+      <div class="logo-text"><div class="main">PawPick</div><div class="sub">毛選精品選物</div></div>
+    </a>
+    <ul class="nav-links">
+      <li><a class="active" onclick="filterCat(null,this)">首頁</a></li>
+      <li><a onclick="filterCat(null,this)">全部商品</a></li>
+      <li><a onclick="filterPet('dog',this)">狗狗專區</a></li>
+      <li><a onclick="filterPet('cat',this)">貓咪專區</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="nav-btn" onclick="openCart()">🛒<span class="cart-badge" id="cartBadge">0</span></button>
+      <div class="user-wrap" id="userWrap">
+        <button class="nav-btn" id="userNavBtn">👤</button>
+        <div class="user-dd" id="userDd"></div>
+      </div>
+      <button class="btn-nav btn-outline" id="loginNavBtn" onclick="openModal('login')">登入</button>
+      <button class="btn-nav btn-solid" id="regNavBtn" onclick="openModal('register')">註冊</button>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">🏆 台灣銷售第一 寵物保健品牌</div>
+      <h1>讓每一口<br><span>都是愛</span>的滋養</h1>
+      <p>精選 DR.ZOO 等優質品牌，<br>專業配方守護毛孩的每一天。</p>
+      <div class="hero-btns">
+        <button class="btn-hero btn-hero-p" onclick="scrollTo('products')">立即選購 →</button>
+        <button class="btn-hero btn-hero-o" onclick="scrollTo('categories')">瀏覽分類</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num">15,000+</div><div class="lbl">滿意毛家長</div></div>
+        <div class="hero-stat"><div class="num">200+</div><div class="lbl">精選商品</div></div>
+        <div class="hero-stat"><div class="num">98%</div><div class="lbl">好評率</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section" id="categories">
+  <div class="sec-head">
+    <div><div class="sec-title">依需求<span>精選</span></div><div class="sec-sub">找到最適合你家毛孩的好物</div></div>
+  </div>
+  <div class="cat-grid" id="catGrid">
+    ${[1,2,3,4].map(()=>`<div class="skel-card"><div style="height:120px" class="skel"></div></div>`).join('')}
+  </div>
+</div>
+
+<div class="prods-wrap" id="products">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="sec-head">
+      <div><div class="sec-title" id="prodTitle">熱銷<span>精選</span></div><div class="sec-sub">毛家長最愛、最多好評的商品</div></div>
+    </div>
+    <div class="prod-grid" id="prodGrid">
+      ${Array(8).fill(`<div class="skel-card"><div style="height:190px" class="skel"></div><div style="padding:14px"><div style="height:12px;width:50%;margin-bottom:10px" class="skel"></div><div style="height:14px;margin-bottom:8px" class="skel"></div><div style="height:12px;width:40%" class="skel"></div></div></div>`).join('')}
+    </div>
+  </div>
+</div>
+
+<div class="feats">
+  <div class="feats-inner">
+    <div class="feat"><span class="feat-icon">🚚</span><div class="feat-title">滿 NT$1,200 免運</div><div class="feat-desc">全台宅配到府<br>超商取貨皆可</div></div>
+    <div class="feat"><span class="feat-icon">🔬</span><div class="feat-title">獸醫師推薦配方</div><div class="feat-desc">專業研發<br>通過品質認證</div></div>
+    <div class="feat"><span class="feat-icon">🔄</span><div class="feat-title">7 天鑑賞期</div><div class="feat-desc">不滿意免費退換<br>無條件保障</div></div>
+    <div class="feat"><span class="feat-icon">💰</span><div class="feat-title">現金回饋 5%</div><div class="feat-desc">每次消費累積點數<br>下次折抵使用</div></div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-brand"><div class="name">🐾 PawPick 毛選</div><p>台灣在地寵物精品選物平台<br>為每一位毛家長嚴選最好的商品<br>讓毛孩健康快樂每一天</p></div>
+    <div class="foot-col"><h4>商品分類</h4><ul><li><a onclick="filterPet('dog',null)">狗狗保健</a></li><li><a onclick="filterPet('cat',null)">貓咪保健</a></li><li><a onclick="filterCat(null,null)">全部商品</a></li></ul></div>
+    <div class="foot-col"><h4>購物說明</h4><ul><li><a>運費說明</a></li><li><a>退換貨政策</a></li><li><a>訂單查詢</a></li></ul></div>
+    <div class="foot-col"><h4>關於我們</h4><ul><li><a>品牌故事</a></li><li><a>聯絡客服</a></li><li><a href="admin.html">後台管理</a></li></ul></div>
+  </div>
+  <div class="foot-bottom"><span>© 2025 PawPick 毛選 All Rights Reserved.</span><span>客服信箱：hello@pawpick.tw</span></div>
+</footer>
+
+<!-- Cart -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-head"><h3>🛒 購物車</h3><button class="btn-x" onclick="closeCart()">✕</button></div>
+  <div class="cart-body" id="cartBody"></div>
+  <div class="cart-foot" id="cartFoot" style="display:none">
+    <div class="coupon-row"><input class="coupon-in" id="couponIn" placeholder="輸入優惠券代碼"><button class="btn-apply" onclick="applyCoupon()">套用</button></div>
+    <div class="cart-total-row"><span class="lbl">總計</span><span class="amt" id="cartAmt">NT$ 0</span></div>
+    <button class="btn-checkout" onclick="openCheckout()">前往結帳 →</button>
+    <button class="btn-cont" onclick="closeCart()">繼續購物</button>
+  </div>
+</div>
+
+<!-- Login -->
+<div class="modal" id="loginModal">
+  <div class="modal-bg" onclick="closeModal('login')"></div>
+  <div class="modal-box">
+    <button class="modal-x" onclick="closeModal('login')">✕</button>
+    <h2>歡迎回來 👋</h2><div class="modal-sub">登入你的 PawPick 帳號</div>
+    <div class="fg"><label>電子信箱</label><input type="email" id="liEmail" placeholder="your@email.com"></div>
+    <div class="fg"><label>密碼</label><input type="password" id="liPw" placeholder="輸入密碼"></div>
+    <div class="ferr" id="liErr"></div>
+    <button class="btn-sub" id="liBtn" onclick="doLogin()">登入</button>
+    <div class="modal-sw">還沒帳號？<a onclick="switchModal('login','register')">立即註冊</a></div>
+  </div>
+</div>
+
+<!-- Register -->
+<div class="modal" id="registerModal">
+  <div class="modal-bg" onclick="closeModal('register')"></div>
+  <div class="modal-box">
+    <button class="modal-x" onclick="closeModal('register')">✕</button>
+    <h2>加入毛選 🐾</h2><div class="modal-sub">新會員享首購 85 折優惠</div>
+    <div class="fg"><label>姓名</label><input type="text" id="rgName" placeholder="請輸入姓名"></div>
+    <div class="fg"><label>電子信箱</label><input type="email" id="rgEmail" placeholder="your@email.com"></div>
+    <div class="fg"><label>密碼（至少8碼）</label><input type="password" id="rgPw" placeholder="輸入密碼"></div>
+    <div class="ferr" id="rgErr"></div>
+    <button class="btn-sub" id="rgBtn" onclick="doRegister()">立即註冊 → 享 85 折</button>
+    <div class="modal-sw">已有帳號？<a onclick="switchModal('register','login')">登入</a></div>
+  </div>
+</div>
+
+<!-- Checkout -->
+<div class="modal" id="checkoutModal">
+  <div class="modal-bg" onclick="closeModal('checkout')"></div>
+  <div class="modal-box" style="max-width:520px">
+    <button class="modal-x" onclick="closeModal('checkout')">✕</button>
+    <h2>確認結帳 🛍</h2><div class="modal-sub">填寫收件資料後前往付款</div>
+    <div class="fg-grid">
+      <div class="fg"><label>收件人姓名 *</label><input type="text" id="ckName"></div>
+      <div class="fg"><label>聯絡電話 *</label><input type="tel" id="ckPhone" placeholder="0912-345-678"></div>
+    </div>
+    <div class="fg"><label>收件地址 *</label><input type="text" id="ckAddr" placeholder="縣市、鄉鎮市區、路段門牌號"></div>
+    <div class="fg"><label>備註（選填）</label><input type="text" id="ckNote" placeholder="特殊需求或配送說明"></div>
+    <div style="font-size:13px;font-weight:700;color:var(--primary);margin-bottom:10px">💳 付款方式</div>
+    <div class="pay-opts">
+      <label class="pay-opt active" id="po-credit" onclick="selectPay('credit_card',this)"><input type="radio" name="pay" value="credit_card" checked style="display:none"> 💳 信用卡</label>
+      <label class="pay-opt" id="po-atm" onclick="selectPay('ATM',this)"><input type="radio" name="pay" value="ATM" style="display:none"> 🏧 ATM</label>
+      <label class="pay-opt" id="po-cvs" onclick="selectPay('CVS',this)"><input type="radio" name="pay" value="CVS" style="display:none"> 🏪 超商代碼</label>
+    </div>
+    <div class="order-sum">
+      <div class="order-sum-row"><span>小計</span><span id="ckSub">NT$ 0</span></div>
+      <div class="order-sum-row"><span>運費</span><span id="ckShip">NT$ 100</span></div>
+      <div class="order-sum-row" id="ckDiscRow" style="display:none;color:var(--success)"><span>優惠折扣</span><span id="ckDisc">-NT$ 0</span></div>
+      <div class="order-sum-row total"><span>總計</span><span id="ckTotal">NT$ 0</span></div>
+    </div>
+    <div class="ferr" id="ckErr"></div>
+    <button class="btn-sub" id="ckBtn" onclick="doCheckout()">確認下單，前往付款 →</button>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script>
+const API = 'http://localhost:3000/api';
+let cartData = [], appliedCoupon = null, selectedPay = 'credit_card';
+
+// ===== HTTP =====
+async function req(method, path, data=null, auth=false) {
+  const h = {'Content-Type':'application/json'};
+  if (auth) { const t=localStorage.getItem('pp_token'); if(t) h['Authorization']=`Bearer ${t}`; }
+  const r = await fetch(API+path, {method, headers:h, body:data?JSON.stringify(data):null});
+  const j = await r.json();
+  if (!r.ok) throw new Error(j.message||'錯誤');
+  return j;
+}
+const api = { get:(p,a)=>req('GET',p,null,a), post:(p,d,a)=>req('POST',p,d,a), put:(p,d,a)=>req('PUT',p,d,a), del:(p,a)=>req('DELETE',p,null,a) };
+
+// ===== AUTH =====
+const Auth = {
+  async login(e,p){ const r=await api.post('/auth/login',{email:e,password:p}); localStorage.setItem('pp_token',r.token); localStorage.setItem('pp_user',JSON.stringify(r.user)); return r; },
+  async register(n,e,p){ const r=await api.post('/auth/register',{name:n,email:e,password:p}); localStorage.setItem('pp_token',r.token); localStorage.setItem('pp_user',JSON.stringify(r.user)); return r; },
+  logout(){ localStorage.removeItem('pp_token'); localStorage.removeItem('pp_user'); updateAuthUI(); cartData=[]; renderCart(); toast('👋 已登出'); },
+  user(){ try{return JSON.parse(localStorage.getItem('pp_user'));}catch{return null;} },
+  ok(){ return !!localStorage.getItem('pp_token'); }
+};
+
+function updateAuthUI(){
+  const u=Auth.user();
+  document.getElementById('loginNavBtn').style.display = u?'none':'';
+  document.getElementById('regNavBtn').style.display = u?'none':'';
+  const dd = document.getElementById('userDd');
+  if(u){
+    document.getElementById('userNavBtn').textContent = '👤';
+    dd.innerHTML=`<a onclick="openMyOrders()">📦 我的訂單</a><a onclick="Auth.logout()">🚪 登出</a>`;
+  } else { dd.innerHTML=''; }
+}
+
+// ===== LOAD CATEGORIES =====
+async function loadCats(){
+  try{
+    const r=await api.get('/categories');
+    document.getElementById('catGrid').innerHTML=r.data.map(c=>`
+      <div class="cat-card" onclick="filterCat('${c.slug}',this)">
+        <div class="cat-icon">${c.icon}</div>
+        <div class="cat-name">${c.name}</div>
+      </div>`).join('');
+  }catch(e){console.warn('分類載入失敗',e.message);}
+}
+
+// ===== LOAD PRODUCTS =====
+async function loadProds(params={}){
+  const grid=document.getElementById('prodGrid');
+  grid.innerHTML=Array(8).fill(`<div class="skel-card"><div style="height:190px" class="skel"></div><div style="padding:14px"><div style="height:12px;width:50%;margin-bottom:10px" class="skel"></div><div style="height:14px;margin-bottom:8px" class="skel"></div><div style="height:12px;width:40%" class="skel"></div></div></div>`).join('');
+  try{
+    const q=new URLSearchParams({...params,limit:12}).toString();
+    const r=await api.get('/products?'+q);
+    if(!r.data.length){grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--gray-500)">😔 找不到相關商品</div>`;return;}
+    grid.innerHTML=r.data.map(p=>`
+      <div class="prod-card" onclick="viewProd(${p.id})">
+        <div class="prod-img-wrap">
+          ${p.image?`<img src="${p.image}" alt="${p.name}" onerror="this.style.display='none'">`:`<span>${p.pet_type==='cat'?'🐈':p.pet_type==='dog'?'🐕':'🐾'}</span>`}
+          <div class="prod-badges">${p.stock===0?'<span class="badge badge-out">缺貨</span>':''}</div>
+          <button class="btn-wish" onclick="event.stopPropagation();this.classList.toggle('liked');toast('❤️ 已更新收藏')">🤍</button>
+        </div>
+        <div class="prod-body">
+          <div class="prod-brand">${p.brand}</div>
+          <div class="prod-name">${p.name}</div>
+          <div class="prod-desc">${p.description||''}</div>
+          <div class="prod-stars"><span>★★★★★</span> 4.8 (120+)</div>
+          <div class="prod-foot">
+            <div>${p.original_price>p.price?`<span class="prod-orig">NT$ ${p.original_price.toLocaleString()}</span>`:''}
+              <span class="prod-price">NT$ ${p.price.toLocaleString()}</span></div>
+            <button class="btn-add" onclick="event.stopPropagation();addCart(${p.id})" ${p.stock===0?'disabled':''}>+</button>
+          </div>
+        </div>
+      </div>`).join('');
+  }catch(e){grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--gray-500)">⚠️ 無法連線，請確認後端已啟動<br><small style="margin-top:8px;display:block">npm start（在 backend 資料夾）</small></div>`;}
+}
+
+function filterCat(slug,el){
+  document.querySelectorAll('.cat-card').forEach(c=>c.classList.remove('active'));
+  if(el?.classList) el.classList.add('active');
+  document.getElementById('prodTitle').innerHTML=slug?`<span>${el?.querySelector('.cat-name')?.textContent||slug}</span> 商品`:`熱銷<span>精選</span>`;
+  loadProds(slug?{category:slug}:{});
+  scrollTo('products');
+}
+
+function filterPet(pt,el){
+  document.getElementById('prodTitle').innerHTML=pt==='dog'?`狗狗<span>專區</span>`:`貓咪<span>專區</span>`;
+  loadProds({pet_type:pt});
+  scrollTo('products');
+}
+
+function viewProd(id){ toast('🔍 商品詳情頁（開發中）'); }
+function scrollTo(id){ document.getElementById(id)?.scrollIntoView({behavior:'smooth'}); }
+
+// ===== CART =====
+async function loadCart(){
+  if(!Auth.ok()){ renderCart(); return; }
+  try{ const r=await api.get('/cart',true); cartData=r.data; renderCart(); updateBadge(); }
+  catch(){ renderCart(); }
+}
+
+function renderCart(){
+  const body=document.getElementById('cartBody');
+  const foot=document.getElementById('cartFoot');
+  if(!cartData.length){
+    body.innerHTML=`<div class="cart-empty"><div style="font-size:56px;margin-bottom:14px">🛒</div><div style="font-weight:600">購物車是空的</div><div style="font-size:12px;margin-top:6px;color:var(--gray-500)">快去挑選毛孩喜歡的商品！</div></div>`;
+    foot.style.display='none'; return;
+  }
+  body.innerHTML=cartData.map(i=>`
+    <div class="cart-item">
+      <div class="ci-img">${i.image?`<img src="${i.image}" alt="">`:`${i.pet_type==='cat'?'🐈':'🐕'}`}</div>
+      <div class="ci-info">
+        <div class="ci-name">${i.name}</div>
+        <div class="ci-price">NT$ ${(i.price*i.quantity).toLocaleString()}</div>
+        <div class="qty-row">
+          <button class="qty-btn" onclick="updCart(${i.id},${i.quantity-1})">−</button>
+          <span class="qty-n">${i.quantity}</span>
+          <button class="qty-btn" onclick="updCart(${i.id},${i.quantity+1})">+</button>
+        </div>
+      </div>
+      <button class="btn-del" onclick="delCart(${i.id})">🗑</button>
+    </div>`).join('');
+  const sub=cartData.reduce((s,i)=>s+i.price*i.quantity,0);
+  const ship=sub>=1200?0:100;
+  const disc=appliedCoupon?calcDisc(sub,ship,appliedCoupon):0;
+  document.getElementById('cartAmt').textContent='NT$ '+(sub+ship-disc).toLocaleString();
+  foot.style.display='block';
+}
+
+function calcDisc(sub,ship,cp){
+  if(cp.type==='percent') return Math.floor(sub*cp.value/100);
+  if(cp.type==='fixed') return cp.value;
+  if(cp.type==='freeship') return ship;
+  return 0;
+}
+
+function updateBadge(){ document.getElementById('cartBadge').textContent=cartData.reduce((s,i)=>s+i.quantity,0); }
+
+async function addCart(pid){
+  if(!Auth.ok()){ openModal('login'); toast('⚠️ 請先登入才能加入購物車','warning'); return; }
+  try{ await api.post('/cart',{product_id:pid,quantity:1},true); await loadCart(); toast('✅ 已加入購物車！'); }
+  catch(e){ toast('❌ '+e.message,'error'); }
+}
+
+async function updCart(id,qty){ try{ await api.put('/cart/'+id,{quantity:qty},true); await loadCart(); }catch{} }
+async function delCart(id){ try{ await api.del('/cart/'+id,true); await loadCart(); toast('🗑 已移除'); }catch{} }
+
+async function applyCoupon(){
+  const code=document.getElementById('couponIn').value.trim().toUpperCase();
+  if(!code||!Auth.ok()) return;
+  const sub=cartData.reduce((s,i)=>s+i.price*i.quantity,0);
+  try{ const r=await api.post('/coupons/validate',{code,amount:sub},true); appliedCoupon=r.data; renderCart(); toast('🎫 優惠券套用成功！'); }
+  catch(e){ toast('❌ '+e.message,'error'); }
+}
+
+function openCart(){ document.getElementById('cartDrawer').classList.add('open'); document.getElementById('overlay').classList.add('show'); loadCart(); }
+function closeCart(){ document.getElementById('cartDrawer').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+
+// ===== CHECKOUT =====
+function selectPay(val, el){
+  selectedPay=val;
+  document.querySelectorAll('.pay-opt').forEach(o=>o.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function openCheckout(){
+  if(!Auth.ok()){ closeCart(); openModal('login'); return; }
+  if(!cartData.length) return;
+  const sub=cartData.reduce((s,i)=>s+i.price*i.quantity,0);
+  const ship=sub>=1200?0:100;
+  const disc=appliedCoupon?calcDisc(sub,ship,appliedCoupon):0;
+  document.getElementById('ckSub').textContent='NT$ '+sub.toLocaleString();
+  document.getElementById('ckShip').textContent=ship===0?'🎉 免運':'NT$ '+ship;
+  document.getElementById('ckTotal').textContent='NT$ '+(sub+ship-disc).toLocaleString();
+  if(disc>0){ document.getElementById('ckDisc').textContent='-NT$ '+disc.toLocaleString(); document.getElementById('ckDiscRow').style.display='flex'; }
+  openModal('checkout');
+}
+
+async function doCheckout(){
+  const name=document.getElementById('ckName').value.trim();
+  const phone=document.getElementById('ckPhone').value.trim();
+  const addr=document.getElementById('ckAddr').value.trim();
+  const note=document.getElementById('ckNote').value.trim();
+  const err=document.getElementById('ckErr');
+  err.style.display='none';
+  if(!name||!phone||!addr){ err.textContent='請填寫所有必填欄位 (*)'; err.style.display='block'; return; }
+  const btn=document.getElementById('ckBtn');
+  btn.disabled=true; btn.textContent='建立訂單中...';
+  try{
+    const items=cartData.map(i=>({product_id:i.product_id,quantity:i.quantity}));
+    const r=await api.post('/orders',{items,name,phone,address:addr,note,payment_method:selectedPay,coupon_code:appliedCoupon?.code},true);
+    btn.textContent='前往付款中...';
+    // 取得綠界付款表單
+    const pr=await api.post('/payment/create',{order_id:r.order_id},true);
+    closeModal('checkout'); closeCart();
+    cartData=[]; appliedCoupon=null; updateBadge();
+    // 提交到綠界
+    submitECPay(pr.payment_url, pr.params);
+  }catch(e){ err.textContent=e.message; err.style.display='block'; }
+  finally{ btn.disabled=false; btn.textContent='確認下單，前往付款 →'; }
+}
+
+function submitECPay(url, params){
+  const form=document.createElement('form');
+  form.method='POST'; form.action=url; form.style.display='none';
+  for(const [k,v] of Object.entries(params)){
+    const inp=document.createElement('input');
+    inp.type='hidden'; inp.name=k; inp.value=v;
+    form.appendChild(inp);
+  }
+  document.body.appendChild(form);
+  toast('🔄 正在前往綠界付款頁面...','success');
+  setTimeout(()=>form.submit(), 600);
+}
+
+function checkPayResult(){
+  const p=new URLSearchParams(window.location.search);
+  if(p.get('payment')==='success'){ toast('🎉 付款成功！感謝你的購買','success'); window.history.replaceState({},'',location.pathname); }
+  else if(p.get('payment')==='fail'){ toast('❌ 付款失敗，請重新嘗試','error'); window.history.replaceState({},'',location.pathname); }
+}
+
+// ===== AUTH ACTIONS =====
+async function doLogin(){
+  const e=document.getElementById('liEmail').value.trim();
+  const p=document.getElementById('liPw').value;
+  const err=document.getElementById('liErr');
+  const btn=document.getElementById('liBtn');
+  err.style.display='none';
+  if(!e||!p){ err.textContent='請填寫信箱和密碼'; err.style.display='block'; return; }
+  btn.disabled=true; btn.textContent='登入中...';
+  try{ await Auth.login(e,p); closeModal('login'); updateAuthUI(); await loadCart(); toast('✅ 登入成功！歡迎 '+Auth.user().name); }
+  catch(ex){ err.textContent=ex.message; err.style.display='block'; }
+  finally{ btn.disabled=false; btn.textContent='登入'; }
+}
+
+async function doRegister(){
+  const n=document.getElementById('rgName').value.trim();
+  const e=document.getElementById('rgEmail').value.trim();
+  const p=document.getElementById('rgPw').value;
+  const err=document.getElementById('rgErr');
+  const btn=document.getElementById('rgBtn');
+  err.style.display='none';
+  if(!n||!e||!p){ err.textContent='請填寫所有欄位'; err.style.display='block'; return; }
+  btn.disabled=true; btn.textContent='處理中...';
+  try{ await Auth.register(n,e,p); closeModal('register'); updateAuthUI(); toast('🎉 註冊成功！85折優惠已啟用'); }
+  catch(ex){ err.textContent=ex.message; err.style.display='block'; }
+  finally{ btn.disabled=false; btn.textContent='立即註冊 → 享 85 折'; }
+}
+
+async function openMyOrders(){
+  try{ const r=await api.get('/orders/my',true); toast(`📦 你有 ${r.data.length} 筆訂單`,'success'); }
+  catch(e){ toast('❌ '+e.message,'error'); }
+}
+
+// ===== MODAL =====
+function openModal(id){ document.getElementById(id+'Modal').classList.add('show'); }
+function closeModal(id){ document.getElementById(id+'Modal').classList.remove('show'); }
+function switchModal(a,b){ closeModal(a); setTimeout(()=>openModal(b),150); }
+
+// ===== TOAST =====
+function toast(msg, type='success'){
+  const c=document.getElementById('toasts');
+  const t=document.createElement('div');
+  t.className=`toast ${type}`; t.textContent=msg;
+  c.appendChild(t);
+  setTimeout(()=>t.classList.add('show'),10);
+  setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),300); },3000);
+}
+
+// ===== LOAD ANNOUNCEMENTS =====
+async function loadAnn(){
+  try{ const r=await api.get('/announcements'); if(r.data.length) document.getElementById('topbarText').innerHTML=r.data[0].content; }
+  catch{}
+}
+
+// ===== INIT =====
+updateAuthUI();
+loadCats();
+loadProds();
+loadAnn();
+checkPayResult();
+if(Auth.ok()) loadCart();
+</script>
+</body>
+</html>

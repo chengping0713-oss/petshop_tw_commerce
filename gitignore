@@ -1,0 +1,17 @@
+# 環境變數（絕對不能上傳！）
+.env
+
+# 資料庫（本機用，雲端會重新產生）
+database/
+*.db
+*.sqlite
+
+# 圖片上傳（本機暫存）
+uploads/
+
+# Node.js
+node_modules/
+
+# 系統檔案
+.DS_Store
+Thumbs.db

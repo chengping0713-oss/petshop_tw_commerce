@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PawPick 後台管理系統</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0F1117;--sidebar:#161B22;--card:#1C2128;--card2:#21262D;--border:#30363D;--primary:#3B82F6;--primary-glow:rgba(59,130,246,0.15);--success:#22C55E;--warning:#F59E0B;--danger:#EF4444;--purple:#A855F7;--text:#E6EDF3;--text-muted:#7D8590;--text-dim:#484F58;--radius:12px;--shadow:0 4px 20px rgba(0,0,0,0.4);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;}
+.sidebar{width:240px;min-height:100vh;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:50;}
+.sidebar-logo{padding:24px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.logo-mark{width:38px;height:38px;background:linear-gradient(135deg,var(--primary),#60A5FA);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.logo-text .main{font-family:'Outfit',sans-serif;font-size:16px;font-weight:800;}
+.logo-text .sub{font-size:10px;color:var(--text-muted);}
+.sidebar-nav{padding:16px 12px;flex:1;overflow-y:auto;}
+.nav-section-title{font-size:10px;font-weight:700;color:var(--text-dim);letter-spacing:1.5px;padding:16px 8px 8px;text-transform:uppercase;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;font-size:14px;color:var(--text-muted);transition:all 0.2s;margin-bottom:2px;}
+.nav-item:hover{background:var(--card2);color:var(--text);}
+.nav-item.active{background:var(--primary-glow);color:var(--primary);font-weight:600;}
+.nav-item .icon{font-size:16px;width:20px;text-align:center;}
+.nav-badge{margin-left:auto;background:var(--danger);color:white;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;}
+.sidebar-footer{padding:16px;border-top:1px solid var(--border);}
+.admin-info{display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:var(--card2);}
+.admin-avatar{width:34px;height:34px;background:linear-gradient(135deg,var(--primary),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:white;}
+.admin-name{font-size:13px;font-weight:600;}
+.admin-role{font-size:11px;color:var(--text-muted);}
+.main{margin-left:240px;flex:1;min-height:100vh;display:flex;flex-direction:column;}
+.topbar{background:var(--sidebar);border-bottom:1px solid var(--border);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40;}
+.page-title{font-size:18px;font-weight:700;}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.topbar-btn{background:var(--card2);border:1px solid var(--border);color:var(--text);width:36px;height:36px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all 0.2s;}
+.topbar-btn:hover{background:var(--card);border-color:var(--primary);}
+.content{padding:28px;flex:1;}
+.page-section{display:none;}
+.page-section.active{display:block;}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;transition:border-color 0.2s;}
+.stat-card:hover{border-color:var(--primary);}
+.stat-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.stat-label{font-size:13px;color:var(--text-muted);font-weight:500;}
+.stat-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.stat-icon.blue{background:rgba(59,130,246,0.15);}
+.stat-icon.green{background:rgba(34,197,94,0.15);}
+.stat-icon.yellow{background:rgba(245,158,11,0.15);}
+.stat-icon.purple{background:rgba(168,85,247,0.15);}
+.stat-value{font-size:28px;font-weight:800;font-family:'Outfit',sans-serif;margin-bottom:6px;}
+.stat-change{font-size:12px;display:flex;align-items:center;gap:4px;}
+.stat-change.up{color:var(--success);}
+.stat-change.down{color:var(--danger);}
+.table-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:24px;}
+.table-header{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.table-title{font-size:15px;font-weight:700;}
+.table-actions{display:flex;gap:8px;align-items:center;}
+.search-input{background:var(--card2);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:8px;font-size:13px;font-family:'Noto Sans TC',sans-serif;outline:none;transition:border-color 0.2s;width:200px;}
+.search-input:focus{border-color:var(--primary);}
+.btn-action{background:var(--primary);color:white;border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all 0.2s;display:flex;align-items:center;gap:6px;}
+.btn-action:hover{background:#2563EB;}
+.btn-action.secondary{background:var(--card2);border:1px solid var(--border);color:var(--text);}
+.btn-action.secondary:hover{border-color:var(--primary);color:var(--primary);}
+.btn-action.danger{background:var(--danger);}
+table{width:100%;border-collapse:collapse;}
+thead th{padding:12px 16px;text-align:left;font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;background:var(--card2);border-bottom:1px solid var(--border);}
+tbody tr{border-bottom:1px solid var(--border);transition:background 0.15s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:var(--card2);}
+tbody td{padding:14px 16px;font-size:13px;}
+.avatar-cell{display:flex;align-items:center;gap:10px;}
+.avatar-sm{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--purple));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:white;flex-shrink:0;}
+.cell-name{font-weight:600;font-size:13px;}
+.cell-sub{font-size:11px;color:var(--text-muted);margin-top:2px;}
+.status-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.status-badge::before{content:'';width:6px;height:6px;border-radius:50%;}
+.status-paid{background:rgba(34,197,94,0.1);color:var(--success);}
+.status-paid::before{background:var(--success);}
+.status-pending{background:rgba(245,158,11,0.1);color:var(--warning);}
+.status-pending::before{background:var(--warning);}
+.status-shipped{background:rgba(59,130,246,0.1);color:var(--primary);}
+.status-shipped::before{background:var(--primary);}
+.status-cancelled{background:rgba(239,68,68,0.1);color:var(--danger);}
+.status-cancelled::before{background:var(--danger);}
+.action-btns{display:flex;gap:6px;}
+.btn-icon{width:28px;height:28px;background:var(--card2);border:1px solid var(--border);color:var(--text-muted);border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all 0.2s;}
+.btn-icon:hover{background:var(--primary-glow);border-color:var(--primary);color:var(--primary);}
+.btn-icon.danger:hover{background:rgba(239,68,68,0.1);border-color:var(--danger);color:var(--danger);}
+.pagination{padding:14px 22px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--text-muted);}
+.form-group{margin-bottom:16px;}
+.form-group.full{grid-column:1/-1;}
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;}
+.form-input{width:100%;padding:10px 14px;background:var(--card2);border:1px solid var(--border);color:var(--text);border-radius:8px;font-size:13px;font-family:'Noto Sans TC',sans-serif;outline:none;transition:border-color 0.2s;}
+.form-input:focus{border-color:var(--primary);}
+textarea.form-input{resize:vertical;min-height:100px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.toggle{width:40px;height:22px;background:var(--border);border-radius:11px;cursor:pointer;position:relative;transition:background 0.2s;border:none;flex-shrink:0;}
+.toggle.on{background:var(--success);}
+.toggle::after{content:'';position:absolute;width:16px;height:16px;background:white;border-radius:50%;top:3px;left:3px;transition:left 0.2s;}
+.toggle.on::after{left:21px;}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.show{display:flex;}
+.modal-box{background:var(--card);border:1px solid var(--border);border-radius:16px;width:100%;max-width:520px;padding:28px;position:relative;}
+.modal-title{font-size:18px;font-weight:700;margin-bottom:20px;}
+.modal-close{position:absolute;top:16px;right:16px;background:var(--card2);border:1px solid var(--border);color:var(--text-muted);width:30px;height:30px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:20px;}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:16px;}
+.loading-row td{text-align:center;padding:40px;color:var(--text-muted);}
+.toast-stack{position:fixed;bottom:20px;right:20px;z-index:999;display:flex;flex-direction:column;gap:8px;}
+.toast-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);transform:translateX(80px);opacity:0;transition:all 0.3s;min-width:260px;}
+.toast-item.show{transform:translateX(0);opacity:1;}
+.toast-item.success{border-left:3px solid var(--success);}
+.toast-item.warning{border-left:3px solid var(--warning);}
+.toast-item.error{border-left:3px solid var(--danger);}
+/* Login Screen */
+.login-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000;}
+.login-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:40px;width:100%;max-width:400px;}
+.login-box h1{font-size:24px;font-weight:900;margin-bottom:8px;}
+.login-box p{font-size:14px;color:var(--text-muted);margin-bottom:28px;}
+@media(max-width:768px){.sidebar{transform:translateX(-100%)}.main{margin-left:0}.stats-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <div style="font-size:32px;margin-bottom:12px">🐾</div>
+    <h1>PawPick 後台</h1>
+    <p>請使用管理員帳號登入</p>
+    <div class="form-group"><label class="form-label">電子信箱</label><input class="form-input" type="email" id="adminEmail" value="admin@pawpick.tw" placeholder="admin@pawpick.tw"></div>
+    <div class="form-group"><label class="form-label">密碼</label><input class="form-input" type="password" id="adminPassword" value="admin1234" placeholder="密碼"></div>
+    <div style="font-size:12px;color:var(--danger);margin-bottom:12px;display:none" id="loginErr"></div>
+    <button class="btn-action" style="width:100%;justify-content:center" id="loginSubmit" onclick="adminLogin()">登入後台</button>
+    <div style="margin-top:12px;font-size:12px;color:var(--text-muted);text-align:center">預設帳號: admin@pawpick.tw / admin1234</div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">🐾</div>
+    <div class="logo-text"><div class="main">PawPick</div><div class="sub">後台管理系統</div></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-title">主要功能</div>
+    <div class="nav-item active" onclick="showPage('dashboard',this)"><span class="icon">📊</span> 總覽儀表板</div>
+    <div class="nav-item" onclick="showPage('orders',this)"><span class="icon">📦</span> 訂單管理 <span class="nav-badge" id="pendingBadge">0</span></div>
+    <div class="nav-item" onclick="showPage('products',this)"><span class="icon">🛍</span> 商品管理</div>
+    <div class="nav-item" onclick="showPage('members',this)"><span class="icon">👥</span> 會員管理</div>
+    <div class="nav-section-title">行銷</div>
+    <div class="nav-item" onclick="showPage('coupons',this)"><span class="icon">🎫</span> 優惠券</div>
+    <div class="nav-item" onclick="showPage('announcements',this)"><span class="icon">📢</span> 公告管理</div>
+    <div class="nav-section-title">系統</div>
+    <div class="nav-item" onclick="window.open('index.html')"><span class="icon">🔗</span> 查看前台</div>
+    <div class="nav-item" onclick="adminLogout()"><span class="icon">🚪</span> 登出</div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="admin-info">
+      <div class="admin-avatar" id="adminAvatar">A</div>
+      <div><div class="admin-name" id="adminName">管理員</div><div class="admin-role">超級管理員</div></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="page-title" id="pageTitle">📊 總覽儀表板</div>
+    <div class="topbar-right">
+      <button class="topbar-btn" onclick="loadCurrentPage()">🔄</button>
+    </div>
+  </div>
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div class="page-section active" id="page-dashboard">
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card"><div class="stat-header"><span class="stat-label">本月營收</span><div class="stat-icon blue">💰</div></div><div class="stat-value" id="stat-revenue" style="color:var(--primary)">載入中...</div></div>
+        <div class="stat-card"><div class="stat-header"><span class="stat-label">總訂單數</span><div class="stat-icon green">📦</div></div><div class="stat-value" id="stat-orders" style="color:var(--success)">-</div></div>
+        <div class="stat-card"><div class="stat-header"><span class="stat-label">新增會員</span><div class="stat-icon yellow">👥</div></div><div class="stat-value" id="stat-members" style="color:var(--warning)">-</div></div>
+        <div class="stat-card"><div class="stat-header"><span class="stat-label">待處理訂單</span><div class="stat-icon purple">⏳</div></div><div class="stat-value" id="stat-pending" style="color:var(--purple)">-</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:16px">
+        <div class="table-card">
+          <div class="table-header"><div class="table-title">🕐 最新訂單</div><button class="btn-action secondary" onclick="showPage('orders',null)">查看全部</button></div>
+          <table><thead><tr><th>訂單</th><th>金額</th><th>狀態</th></tr></thead><tbody id="dashOrders"><tr class="loading-row"><td colspan="3">載入中...</td></tr></tbody></table>
+        </div>
+        <div class="chart-card">
+          <div style="font-size:15px;font-weight:700;margin-bottom:16px">⚠️ 庫存警告</div>
+          <div id="lowStockList"><div style="color:var(--text-muted);font-size:13px">載入中...</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="page-section" id="page-orders">
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">📦 訂單管理</div>
+          <div class="table-actions">
+            <input class="search-input" placeholder="🔍 搜尋訂單..." id="orderSearch" oninput="loadOrders()">
+            <select class="search-input" style="width:120px" id="orderStatus" onchange="loadOrders()">
+              <option value="">全部狀態</option>
+              <option value="pending">待處理</option>
+              <option value="paid">已付款</option>
+              <option value="shipped">配送中</option>
+              <option value="cancelled">已取消</option>
+            </select>
+          </div>
+        </div>
+        <table><thead><tr><th>訂單編號</th><th>客戶</th><th>金額</th><th>狀態</th><th>時間</th><th>操作</th></tr></thead>
+        <tbody id="orderTable"><tr class="loading-row"><td colspan="6">載入中...</td></tr></tbody></table>
+        <div class="pagination"><span id="orderCount">-</span></div>
+      </div>
+    </div>
+
+    <!-- PRODUCTS -->
+    <div class="page-section" id="page-products">
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">🛍 商品管理</div>
+          <div class="table-actions">
+            <input class="search-input" placeholder="🔍 搜尋商品...">
+            <button class="btn-action" onclick="openModal('addProduct')">+ 新增商品</button>
+          </div>
+        </div>
+        <table><thead><tr><th>商品</th><th>分類</th><th>售價</th><th>庫存</th><th>狀態</th><th>操作</th></tr></thead>
+        <tbody id="productTable"><tr class="loading-row"><td colspan="6">載入中...</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <!-- MEMBERS -->
+    <div class="page-section" id="page-members">
+      <div class="table-card">
+        <div class="table-header"><div class="table-title">👥 會員管理</div></div>
+        <table><thead><tr><th>會員</th><th>信箱</th><th>加入日期</th><th>操作</th></tr></thead>
+        <tbody id="memberTable"><tr class="loading-row"><td colspan="4">載入中...</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <!-- COUPONS -->
+    <div class="page-section" id="page-coupons">
+      <div class="table-card">
+        <div class="table-header"><div class="table-title">🎫 優惠券</div><button class="btn-action" onclick="openModal('addCoupon')">+ 新增優惠券</button></div>
+        <table><thead><tr><th>代碼</th><th>類型</th><th>折扣</th><th>使用次數</th><th>有效期限</th><th>狀態</th><th>操作</th></tr></thead>
+        <tbody id="couponTable"><tr class="loading-row"><td colspan="7">載入中...</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <!-- ANNOUNCEMENTS -->
+    <div class="page-section" id="page-announcements">
+      <div class="table-card">
+        <div class="table-header"><div class="table-title">📢 公告管理</div><button class="btn-action" onclick="openModal('addAnnouncement')">+ 新增公告</button></div>
+        <table><thead><tr><th>公告內容</th><th>位置</th><th>結束日期</th><th>顯示</th><th>操作</th></tr></thead>
+        <tbody id="announcementTable"><tr class="loading-row"><td colspan="5">載入中...</td></tr></tbody></table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modals -->
+<div class="modal-overlay" id="modal-addProduct">
+  <div class="modal-box" style="max-width:600px">
+    <button class="modal-close" onclick="closeModal('addProduct')">✕</button>
+    <div class="modal-title">🛍 新增商品</div>
+    <div class="form-grid">
+      <div class="form-group"><label class="form-label">商品名稱</label><input class="form-input" id="prod-name" placeholder="商品名稱"></div>
+      <div class="form-group"><label class="form-label">品牌</label><input class="form-input" id="prod-brand" placeholder="DR.ZOO"></div>
+      <div class="form-group"><label class="form-label">分類</label><select class="form-input" id="prod-category"><option value="1">腸胃保健</option><option value="2">關節守護</option><option value="3">皮毛養護</option><option value="4">免疫保健</option><option value="5">零食點心</option><option value="6">禮盒組合</option></select></div>
+      <div class="form-group"><label class="form-label">適用對象</label><select class="form-input" id="prod-pet"><option value="dog">狗狗專用</option><option value="cat">貓咪專用</option><option value="both">犬貓通用</option></select></div>
+      <div class="form-group"><label class="form-label">售價 (NT$)</label><input class="form-input" id="prod-price" type="number" placeholder="0"></div>
+      <div class="form-group"><label class="form-label">原價 (NT$)</label><input class="form-input" id="prod-orig" type="number" placeholder="0"></div>
+      <div class="form-group"><label class="form-label">庫存</label><input class="form-input" id="prod-stock" type="number" placeholder="0"></div>
+      <div class="form-group"><label class="form-label">狀態</label><select class="form-input" id="prod-status"><option value="active">上架</option><option value="inactive">下架</option></select></div>
+      <div class="form-group full"><label class="form-label">商品描述</label><textarea class="form-input" id="prod-desc"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-action secondary" onclick="closeModal('addProduct')">取消</button>
+      <button class="btn-action" onclick="saveProduct()">💾 儲存商品</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-addCoupon">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('addCoupon')">✕</button>
+    <div class="modal-title">🎫 新增優惠券</div>
+    <div class="form-grid">
+      <div class="form-group"><label class="form-label">優惠券代碼</label><input class="form-input" id="cp-code" placeholder="PAWPICK2025"></div>
+      <div class="form-group"><label class="form-label">折扣類型</label><select class="form-input" id="cp-type"><option value="percent">百分比折扣</option><option value="fixed">固定金額</option><option value="freeship">免運費</option></select></div>
+      <div class="form-group"><label class="form-label">折扣值（%或NT$）</label><input class="form-input" id="cp-value" type="number" placeholder="10"></div>
+      <div class="form-group"><label class="form-label">最低消費 (NT$)</label><input class="form-input" id="cp-min" type="number" value="0"></div>
+      <div class="form-group"><label class="form-label">使用上限 (0=不限)</label><input class="form-input" id="cp-max" type="number" value="0"></div>
+      <div class="form-group"><label class="form-label">有效期限</label><input class="form-input" id="cp-end" type="date"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-action secondary" onclick="closeModal('addCoupon')">取消</button>
+      <button class="btn-action" onclick="saveCoupon()">💾 建立優惠券</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-addAnnouncement">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('addAnnouncement')">✕</button>
+    <div class="modal-title">📢 新增公告</div>
+    <div class="form-group"><label class="form-label">公告內容</label><input class="form-input" id="ann-content"></div>
+    <div class="form-group"><label class="form-label">顯示位置</label><select class="form-input" id="ann-pos"><option value="topbar">頂部公告欄</option><option value="banner">首頁橫幅</option></select></div>
+    <div class="form-group"><label class="form-label">結束日期</label><input class="form-input" id="ann-end" type="date"></div>
+    <div class="modal-footer">
+      <button class="btn-action secondary" onclick="closeModal('addAnnouncement')">取消</button>
+      <button class="btn-action" onclick="saveAnnouncement()">💾 發布公告</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-stack" id="toastStack"></div>
+
+<script>
+const API = 'http://localhost:3000/api';
+let adminToken = '';
+let currentPage = 'dashboard';
+
+// ===== HTTP =====
+async function req(method, path, data=null) {
+  const headers = {'Content-Type':'application/json'};
+  if (adminToken) headers['Authorization'] = `Bearer ${adminToken}`;
+  const res = await fetch(API+path, {method, headers, body:data?JSON.stringify(data):null});
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.message||'錯誤');
+  return json;
+}
+
+// ===== LOGIN =====
+async function adminLogin() {
+  const email = document.getElementById('adminEmail').value;
+  const pw = document.getElementById('adminPassword').value;
+  const errEl = document.getElementById('loginErr');
+  const btn = document.getElementById('loginSubmit');
+  errEl.style.display='none';
+  btn.disabled=true; btn.textContent='登入中...';
+  try {
+    const res = await req('POST','/auth/login',{email,password:pw});
+    if (res.user.role !== 'admin') throw new Error('此帳號無管理員權限');
+    adminToken = res.token;
+    localStorage.setItem('admin_token', adminToken);
+    localStorage.setItem('admin_user', JSON.stringify(res.user));
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('adminName').textContent = res.user.name;
+    document.getElementById('adminAvatar').textContent = res.user.name[0];
+    loadDashboard();
+    showToast('✅ 登入成功！','success');
+  } catch(e) { errEl.textContent=e.message; errEl.style.display='block'; }
+  finally { btn.disabled=false; btn.textContent='登入後台'; }
+}
+
+function adminLogout() {
+  adminToken=''; localStorage.removeItem('admin_token'); localStorage.removeItem('admin_user');
+  document.getElementById('loginScreen').style.display='flex';
+}
+
+function checkAuth() {
+  const t = localStorage.getItem('admin_token');
+  const u = localStorage.getItem('admin_user');
+  if (t && u) {
+    adminToken = t;
+    const user = JSON.parse(u);
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('adminName').textContent = user.name;
+    document.getElementById('adminAvatar').textContent = user.name[0];
+    loadDashboard();
+  }
+}
+
+// ===== NAVIGATION =====
+const pageTitles = {dashboard:'📊 總覽儀表板',orders:'📦 訂單管理',products:'🛍 商品管理',members:'👥 會員管理',coupons:'🎫 優惠券',announcements:'📢 公告管理'};
+
+function showPage(page, el) {
+  currentPage = page;
+  document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.getElementById('pageTitle').textContent = pageTitles[page];
+  if (el) el.classList.add('active');
+  loadCurrentPage();
+}
+
+function loadCurrentPage() {
+  if (currentPage==='dashboard') loadDashboard();
+  else if (currentPage==='orders') loadOrders();
+  else if (currentPage==='products') loadProducts();
+  else if (currentPage==='members') loadMembers();
+  else if (currentPage==='coupons') loadCoupons();
+  else if (currentPage==='announcements') loadAnnouncements();
+}
+
+// ===== DASHBOARD =====
+async function loadDashboard() {
+  try {
+    const res = await req('GET','/admin/dashboard');
+    const d = res.data;
+    document.getElementById('stat-revenue').textContent = 'NT$ '+d.stats.month_revenue.toLocaleString();
+    document.getElementById('stat-orders').textContent = d.stats.total_orders;
+    document.getElementById('stat-members').textContent = d.stats.new_members;
+    document.getElementById('stat-pending').textContent = d.stats.pending_orders;
+    document.getElementById('pendingBadge').textContent = d.stats.pending_orders;
+
+    document.getElementById('dashOrders').innerHTML = d.recent_orders.slice(0,6).map(o=>`
+      <tr><td><span style="font-family:'Outfit',sans-serif;font-weight:700;color:var(--primary)">${o.order_no}</span><div style="font-size:11px;color:var(--text-muted)">${o.member_name||o.name}</div></td>
+      <td style="font-family:'Outfit',sans-serif;font-weight:700">NT$ ${o.total.toLocaleString()}</td>
+      <td>${statusBadge(o.status)}</td></tr>
+    `).join('');
+
+    document.getElementById('lowStockList').innerHTML = d.low_stock.length ? d.low_stock.map(p=>`
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px">
+        <span>${p.name}</span>
+        <span style="color:${p.stock===0?'var(--danger)':'var(--warning)'};font-weight:700">${p.stock===0?'缺貨':p.stock+' 件'}</span>
+      </div>
+    `).join('') : '<div style="color:var(--text-muted);font-size:13px">庫存充足 ✅</div>';
+  } catch(e) { showToast('❌ 載入儀表板失敗: '+e.message,'error'); }
+}
+
+function statusBadge(s) {
+  const m={paid:'status-paid 已付款',shipped:'status-shipped 配送中',pending:'status-pending 待處理',cancelled:'status-cancelled 已取消'};
+  const [cls,txt]=(m[s]||'status-pending 未知').split(' ');
+  return `<span class="status-badge ${cls}">${txt}</span>`;
+}
+
+// ===== ORDERS =====
+async function loadOrders() {
+  const search = document.getElementById('orderSearch')?.value||'';
+  const status = document.getElementById('orderStatus')?.value||'';
+  try {
+    const q = new URLSearchParams({...(search&&{search}),...(status&&{status}),limit:20}).toString();
+    const res = await req('GET','/orders?'+q);
+    document.getElementById('orderCount').textContent = `共 ${res.data.length} 筆`;
+    document.getElementById('orderTable').innerHTML = res.data.map(o=>`
+      <tr>
+        <td><span style="font-family:'Outfit',sans-serif;font-weight:700;color:var(--primary)">${o.order_no}</span></td>
+        <td><div class="avatar-cell"><div class="avatar-sm">${(o.member_name||o.name)[0]}</div><div><div class="cell-name">${o.member_name||o.name}</div><div class="cell-sub">${o.member_email||''}</div></div></div></td>
+        <td style="font-family:'Outfit',sans-serif;font-weight:700">NT$ ${o.total.toLocaleString()}</td>
+        <td>${statusBadge(o.status)}</td>
+        <td style="font-size:12px;color:var(--text-muted)">${o.created_at?.slice(0,16)||''}</td>
+        <td><div class="action-btns">
+          <select style="background:var(--card2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;font-size:11px;cursor:pointer" onchange="updateOrderStatus(${o.id},this.value)">
+            <option value="pending" ${o.status==='pending'?'selected':''}>待處理</option>
+            <option value="paid" ${o.status==='paid'?'selected':''}>已付款</option>
+            <option value="shipped" ${o.status==='shipped'?'selected':''}>配送中</option>
+            <option value="cancelled" ${o.status==='cancelled'?'selected':''}>已取消</option>
+          </select>
+        </div></td>
+      </tr>
+    `).join('');
+  } catch(e) { showToast('❌ '+e.message,'error'); }
+}
+
+async function updateOrderStatus(id, status) {
+  try { await req('PUT',`/orders/${id}/status`,{status, payment_status: status==='paid'?'paid':'unpaid'}); showToast('✅ 訂單狀態已更新','success'); loadOrders(); }
+  catch(e) { showToast('❌ '+e.message,'error'); }
+}
+
+// ===== PRODUCTS =====
+async function loadProducts() {
+  try {
+    const res = await req('GET','/products?limit=20&status=all');
+    document.getElementById('productTable').innerHTML = res.data.map(p=>`
+      <tr>
+        <td><div class="avatar-cell"><div class="avatar-sm" style="border-radius:8px">${p.name[0]}</div><div><div class="cell-name">${p.name}</div><div class="cell-sub">${p.brand}</div></div></div></td>
+        <td><span style="background:var(--primary-glow);color:var(--primary);padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600">${p.category_name||'-'}</span></td>
+        <td style="font-family:'Outfit',sans-serif;font-weight:700">NT$ ${p.price.toLocaleString()}</td>
+        <td><span style="color:${p.stock===0?'var(--danger)':p.stock<20?'var(--warning)':'var(--success)'};font-weight:700">${p.stock===0?'缺貨':p.stock+' 件'}</span></td>
+        <td><button class="toggle ${p.status==='active'?'on':''}" onclick="toggleProduct(${p.id},this)"></button></td>
+        <td><div class="action-btns"><button class="btn-icon danger" onclick="deleteProduct(${p.id})">🗑</button></div></td>
+      </tr>
+    `).join('');
+  } catch(e) { showToast('❌ '+e.message,'error'); }
+}
+
+async function toggleProduct(id, btn) {
+  btn.classList.toggle('on');
+  const status = btn.classList.contains('on')?'active':'inactive';
+  try { await req('PUT','/products/'+id,{status}); showToast('✅ 商品狀態已更新','success'); }
+  catch(e) { btn.classList.toggle('on'); showToast('❌ '+e.message,'error'); }
+}
+
+async function deleteProduct(id) {
+  if (!confirm('確定要刪除此商品？')) return;
+  try { await req('DELETE','/products/'+id); showToast('🗑 商品已刪除'); loadProducts(); }
+  catch(e) { showToast('❌ '+e.message,'error'); }
+}
+
+async function saveProduct() {
+  const data = { name:document.getElementById('prod-name').value, brand:document.getElementById('prod-brand').value, category_id:document.getElementById('prod-category').value, pet_type:document.getElementById('prod-pet').value, price:parseInt(document.getElementById('prod-price').value), original_price:parseInt(document.getElementById('prod-orig').value), stock:parseInt(document.getElementById('prod-stock').value), status:document.getElementById('prod-status').value, description:document.getElementById('prod-desc').value };
+  try { await req('POST','/products',data); closeModal('addProduct'); loadProducts(); showToast('✅ 商品已新增','success'); }
+  catch(e) { showToast('❌ '+e.message,'error'); }
+}
+
+// ===== MEMBERS =====
+async function loadMembers() {
+  try {
+    const res = await req('GET','/members');
+    document.getElementById('memberTable').innerHTML = res.data.map(m=>`
+      <tr>
+        <td><div class="avatar-cell"><div class="avatar-sm">${m.name[0]}</div><div class="cell-name">${m.name}</div></div></td>
+        <td style="font-size:12px;color:var(--text-muted)">${m.email}</td>
+        <td style="font-size:12px;color:var(--text-muted)">${m.created_at?.slice(0,10)||''}</td>
+        <td><button class="btn-icon danger" onclick="deleteMember(${m.id})">🗑</button></td>
+      </tr>
+    `).join('');
+  } catch(e) { showToast('❌ '+e.message,'error'); }
+}
+
+async function deleteMember(id) {
+  if (!confirm('確定要刪除此會員？')) return;
+  try { await req('DELETE','/members/'+id); loadMembers(); showToast('🗑 已刪除'); }
+  catch(e) { showToast('❌ '+e.message,'error'); }
+}
+
+// ===== COUPONS =====
+async function loadCoupons() {
+  try {
+    const res = await req('GET','/coupons');
+    document.getElementById('couponTable').innerHTML = res.data.map(c=>`
+      <tr>
+        <td style="font-family:'Outfit',sans-serif;font-weight:800;color:var(--warning)">${c.code}</td>
+        <td>${c.type}</td>
+        <td style="color:var(--success);font-weight:700">${c.type==='percent'?c.value+'%折扣':c.type==='fixed'?'NT$'+c.value:'免運'}</td>
+        <td>${c.used_count} 次</td>
+        <td style="font-size:12px;color:var(--text-muted)">${c.end_date||'永久'}</td>
+        <td><button class="toggle ${c.is_active?'on':''}" onclick="toggleCoupon(${c.id},this)"></button></td>
+        <td><button class="btn-icon danger" onclick="deleteCoupon(${c.id})">🗑</button></td>
+      </tr>
+    `).join('');
+  } catch(e) { showToast('❌ '+e.message,'error'); }
+}
+
+async function toggleCoupon(id, btn) {
+  btn.classList.toggle('on');
+  try { await req('PUT','/coupons/'+id,{is_active:btn.classList.contains('on')?1:0}); showToast('✅ 已更新'); }
+  catch(e) { btn.classList.toggle('on'); }
+}
+
+async function deleteCoupon(id) {
+  try { await req('DELETE','/coupons/'+id); loadCoupons(); showToast('🗑 已刪除'); }
+  catch(e) { showToast('❌ '+e.message,'error'); }
+}
+
+async function saveCoupon() {
+  const data = { code:document.getElementById('cp-code').value.toUpperCase(), type:document.getElementById('cp-type').value, value:parseInt(document.getElementById('cp-value').value), min_amount:parseInt(document.getElementById('cp-min').value)||0, max_uses:parseInt(document.getElementById('cp-max').value)||0, end_date:document.getElementById('cp-end').value||null };
+  try { await req('POST','/coupons',data); closeModal('addCoupon'); loadCoupons(); showToast('🎫 優惠券已建立','success'); }
+  catch(e) { showToast('❌ '+e.message,'error'); }
+}
+
+// ===== ANNOUNCEMENTS =====
+async function loadAnnouncements() {
+  try {
+    const res = await req('GET','/announcements');
+    document.getElementById('announcementTable').innerHTML = res.data.map(a=>`
+      <tr>
+        <td style="max-width:300px;font-size:13px">${a.content}</td>
+        <td><span style="background:rgba(168,85,247,0.1);color:var(--purple);padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600">${a.position}</span></td>
+        <td style="font-size:12px;color:var(--text-muted)">${a.end_date||'永久'}</td>
+        <td><button class="toggle ${a.is_active?'on':''}" onclick="toggleAnnouncement(${a.id},this)"></button></td>
+        <td><button class="btn-icon danger" onclick="deleteAnnouncement(${a.id})">🗑</button></td>
+      </tr>
+    `).join('');
+  } catch(e) { showToast('❌ '+e.message,'error'); }
+}
+
+async function toggleAnnouncement(id, btn) {
+  btn.classList.toggle('on');
+  try { await req('PUT','/announcements/'+id,{is_active:btn.classList.contains('on')?1:0, content:''}); }
+  catch(e) { btn.classList.toggle('on'); }
+}
+
+async function deleteAnnouncement(id) {
+  try { await req('DELETE','/announcements/'+id); loadAnnouncements(); showToast('🗑 已刪除'); }
+  catch(e) { showToast('❌ '+e.message,'error'); }
+}
+
+async function saveAnnouncement() {
+  const data = { content:document.getElementById('ann-content').value, position:document.getElementById('ann-pos').value, end_date:document.getElementById('ann-end').value||null };
+  try { await req('POST','/announcements',data); closeModal('addAnnouncement'); loadAnnouncements(); showToast('📢 公告已發布','success'); }
+  catch(e) { showToast('❌ '+e.message,'error'); }
+}
+
+// ===== UTILS =====
+function openModal(id) { document.getElementById('modal-'+id).classList.add('show'); }
+function closeModal(id) { document.getElementById('modal-'+id).classList.remove('show'); }
+
+function showToast(msg, type='success') {
+  const s = document.getElementById('toastStack');
+  const el = document.createElement('div');
+  el.className=`toast-item ${type}`; el.textContent=msg;
+  s.appendChild(el);
+  setTimeout(()=>el.classList.add('show'),10);
+  setTimeout(()=>{el.classList.remove('show');setTimeout(()=>el.remove(),300);},3500);
+}
+
+// Init
+checkAuth();
+</script>
+</body>
+</html>
